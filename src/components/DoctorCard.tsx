@@ -8,6 +8,7 @@ interface DoctorCardProps {
   appointmentDate: string;
   isFree: boolean;
   imageUrl?: string;
+  onClick?: () => void;
 }
 
 const DoctorCard = ({
@@ -17,9 +18,15 @@ const DoctorCard = ({
   appointmentDate,
   isFree = true,
   imageUrl = "/placeholder.svg",
+  onClick
 }: DoctorCardProps) => {
+  const handleButtonClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (onClick) onClick();
+  };
+
   return (
-    <div className="border-b border-gray-200 pb-4 mb-4">
+    <div className="border-b border-gray-200 pb-4 mb-4 cursor-pointer" onClick={handleButtonClick}>
       <div className="flex items-start gap-3 mb-3">
         <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
           <img
@@ -45,7 +52,11 @@ const DoctorCard = ({
         </div>
       </div>
 
-      <Button variant="outline" className="w-full border-doctor-accent text-doctor-accent hover:bg-doctor-secondary flex items-center justify-center gap-2">
+      <Button 
+        variant="outline" 
+        className="w-full border-doctor-accent text-doctor-accent hover:bg-doctor-secondary flex items-center justify-center gap-2"
+        onClick={handleButtonClick}
+      >
         <CalendarClock className="h-4 w-4" />
         <span>Записаться на прием</span>
       </Button>
